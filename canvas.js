@@ -167,11 +167,7 @@ class CreateCanvas {
 
 module.exports = CreateCanvas;
 
-let instance = new CreateCanvas(12, 8);
+let instance = new CreateCanvas();
 
-console.log(instance.getCanvas());
-console.log(instance.drawCanvas(1, 2, 1, 8));
-console.log(instance.drawRectangle(6, 3, 8, 7));
-console.log(instance.bucketFill(12, 8, '%'));
 
 
