@@ -4,7 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        #main {
+            font-size: 20px;
+        }
+    </style>
     <title>Canvas</title>
 </head>
 
@@ -12,8 +16,8 @@
 
     <pre id="main"></pre>
 
-    <input type="file" onchange="lolkek.outputFile(this)">
-    <input type="button" value="Button" onclick="lolkek.parser()">
+    <input type="file" onchange="instance.outputFile(this)">
+    <input type="button" value="Button" onclick="instance.parser()">
 
     <script src="canvas.js"></script>
 </body>

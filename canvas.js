@@ -3,12 +3,11 @@ class CreateCanvas {
         this.width = width;
         this.height = height;
         this.canvas = [];
-        this.getCanvas();
     }
 
     getCanvas() {
-        if (this.width < 0) console.log("Width must be more than 0");
-        if (this.height < 0) console.log("Height must be more than 0");
+        if (this.width < 0) throw "Width must be more than 0";
+        if (this.height < 0) throw "Height must be more than 0";
 
         for (let x = 0; x < this.height + 2; x++) {
 
@@ -26,6 +25,7 @@ class CreateCanvas {
                 }
             }
         }
+        return this.canvas;
 
     }
 
@@ -42,7 +42,9 @@ class CreateCanvas {
                 this.canvas[i][x1] = 'x';
             }
         }
-        
+
+        return this.canvas;
+
     }
 
     drawRectangle(x1, y1, x2, y2) {
@@ -58,20 +60,21 @@ class CreateCanvas {
             this.canvas[i][x1] = 'x';
             this.canvas[i][x2] = 'x';
         }
+        return this.canvas;
     }
 
     bucketFill(x, y, color) {
         let curentColor;
         if (this.height < y || this.width < x || x < 0 || y < 0) {
-            console.log("Can't fill out of board");
+            throw "Can't fill out of board";
         } else if (this.canvas[y][x] == "x") {
-            console.log("Can't fill the line");
+            throw "Can't fill the line";
         } else if (this.canvas[y][x] == color) {
             return;
         }
 
         curentColor = this.canvas[y][x];
-        
+
         let [leftCorner, rightCorner] = this.findBorders(x, y);
 
         for (let i = leftCorner + 1; i < rightCorner; i++) {
@@ -83,6 +86,8 @@ class CreateCanvas {
                 this.bucketFill(i, y - 1, color)
             }
         }
+
+        return this.canvas;
 
     }
 
@@ -105,7 +110,7 @@ class CreateCanvas {
 
     validateInput(x1, x2, y1, y2) {
         if (x1 <= 0 || x2 <= 0 || y1 <= 0 || y2 <= 0) {
-            console.log("Can't draw on borders");
+            throw "Can't draw on borders";
         }
     }
 
@@ -122,9 +127,7 @@ class CreateCanvas {
                 }
             }
         }
-
         document.getElementById("main").innerHTML = strCanvas;
-
     }
 
     outputFile(input) {
@@ -136,12 +139,13 @@ class CreateCanvas {
 
         reader.onload = () => {
             let commandList = reader.result.split('\n');
-
-            for(let i = 0; i < commandList.length; i++) {
+            for (let i = 0; i < commandList.length; i++) {
                 let command = commandList[i].split(' ');
 
                 if (command[0] == 'C') {
-                    console.log('hi');
+                    this.width = Number(command[1]);
+                    this.height = Number(command[2]);
+                    this.getCanvas();
                 } else if (command[0] == 'L') {
                     this.drawCanvas(+command[1], +command[2], +command[3], +command[4])
                 } else if (command[0] == 'R') {
@@ -159,12 +163,15 @@ class CreateCanvas {
         };
 
     }
-
-
 }
 
-let lolkek = new CreateCanvas(20, 4);
-// lolkek.drawCanvas(1, 2, 6, 2);
-// lolkek.drawCanvas(6, 3, 6, 4);
-// lolkek.drawRectangle(16, 1, 20, 3);
-// lolkek.bucketFill(5, 3, 'o');
+module.exports = CreateCanvas;
+
+let instance = new CreateCanvas(12, 8);
+
+console.log(instance.getCanvas());
+console.log(instance.drawCanvas(1, 2, 1, 8));
+console.log(instance.drawRectangle(6, 3, 8, 7));
+console.log(instance.bucketFill(12, 8, '%'));
+
+
